@@ -29,7 +29,7 @@ Show any code that is needed to:
 activity=read.csv("activity.csv")
 ```
 
-**What is mean total number of steps taken per day?**  
+**What is the mean total number of steps taken per day?**  
 
 For this part of the assignment, you can ignore the missing values in the dataset.  
 
@@ -115,7 +115,7 @@ table(activity$missing)
 
 ```r
 interval_avg_df=data.frame(interval_avg)
-## Use the interval average for missing values
+## Replace missing values with the interval average
 activity_2=merge(activity,interval_avg_df,by.x="interval", by.y="row.names")
 activity_2$steps2=ifelse(activity_2$missing,activity_2$interval_avg,activity_2$steps)
 ```
@@ -146,7 +146,7 @@ median(daily_steps_2,na.rm=TRUE)
 ## [1] 10766.19
 ```
 
-*There is virtually no difference/no impact on the mean/median when using the mean to fill in missing values - only a marginal change to the median.*  
+*There is no difference/no impact at all on the mean (as expected) when using the mean to fill in missing values, and only a marginal change to the median (increased to the mean value) .*  
 
 
 **Are there differences in activity patterns between weekdays and weekends?**  
@@ -158,7 +158,7 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 ```r
 activity_2$weekday=weekdays(as.POSIXct(activity_2$date))
-activity_2$weekdays=ifelse(ifelse(activity_2$weekday %in% c("Sunday","Saturday"),0,1),"weekday","weekend")
+activity_2$weekdays=ifelse(activity_2$weekday %in% c("Sunday","Saturday"),"weekend","weekday")
 ```
 
 2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.

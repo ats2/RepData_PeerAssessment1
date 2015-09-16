@@ -76,7 +76,7 @@ img {
 <p><strong>Loading and preprocessing the data</strong></p>
 <p>Show any code that is needed to:<br />1. Load the data (i.e. read.csv())<br />2. Process/transform the data (if necessary) into a format suitable for your analysis</p>
 <pre class="r"><code>activity=read.csv(&quot;activity.csv&quot;)</code></pre>
-<p><strong>What is mean total number of steps taken per day?</strong></p>
+<p><strong>What is the mean total number of steps taken per day?</strong></p>
 <p>For this part of the assignment, you can ignore the missing values in the dataset.</p>
 <ol style="list-style-type: decimal">
 <li>Calculate the total number of steps taken per day</li>
@@ -121,7 +121,7 @@ table(activity$missing)</code></pre>
 <li>Create a new dataset that is equal to the original dataset but with the missing data filled in.</li>
 </ol>
 <pre class="r"><code>interval_avg_df=data.frame(interval_avg)
-## Use the interval average for missing values
+## Replace missing values with the interval average
 activity_2=merge(activity,interval_avg_df,by.x=&quot;interval&quot;, by.y=&quot;row.names&quot;)
 activity_2$steps2=ifelse(activity_2$missing,activity_2$interval_avg,activity_2$steps)</code></pre>
 <ol start="4" style="list-style-type: decimal">
@@ -134,14 +134,14 @@ hist(daily_steps_2)</code></pre>
 <pre><code>## [1] 10766.19</code></pre>
 <pre class="r"><code>median(daily_steps_2,na.rm=TRUE)</code></pre>
 <pre><code>## [1] 10766.19</code></pre>
-<p><em>There is virtually no difference/no impact on the mean/median when using the mean to fill in missing values - only a marginal change to the median.</em></p>
+<p><em>There is no difference/no impact at all on the mean (as expected) when using the mean to fill in missing values, and only a marginal change to the median (increased to the mean value) .</em></p>
 <p><strong>Are there differences in activity patterns between weekdays and weekends?</strong></p>
 <p>For this part the weekdays() function may be of some help here. Use the dataset with the filled-in missing values for this part.</p>
 <ol style="list-style-type: decimal">
 <li>Create a new factor variable in the dataset with two levels - “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.</li>
 </ol>
 <pre class="r"><code>activity_2$weekday=weekdays(as.POSIXct(activity_2$date))
-activity_2$weekdays=ifelse(ifelse(activity_2$weekday %in% c(&quot;Sunday&quot;,&quot;Saturday&quot;),0,1),&quot;weekday&quot;,&quot;weekend&quot;)</code></pre>
+activity_2$weekdays=ifelse(activity_2$weekday %in% c(&quot;Sunday&quot;,&quot;Saturday&quot;),&quot;weekend&quot;,&quot;weekday&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Make a panel plot containing a time series plot (i.e. type = “l”) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.</li>
 </ol>
